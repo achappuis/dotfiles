@@ -41,25 +41,28 @@ fi
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-
 print_battery() {
-  export BATTERY_VAL=$(acpi | perl -lne 'print $1 if /(\d*)%/')
+  if type acpi > /dev/null; then
+    export BATTERY_VAL=$(acpi 2>/dev/null| perl -lne 'print $1 if /(\d*)%/')
   
-  if [[ $BATTERY_VAL -gt $BATTERY_HTH ]];then
-    BATTERY_COLOR=$BGREEN
-  elif [[ $BATTERY_VAL -gt $BATTERY_LTH ]];then
-    BATTERY_COLOR=$BORANGE
-  else
-    BATTERY_COLOR=$BRED
+    if [[ $BATTERY_VAL -gt $BATTERY_HTH ]];then
+      BATTERY_COLOR=$BGREEN
+    elif [[ $BATTERY_VAL -gt $BATTERY_LTH ]];then
+      BATTERY_COLOR=$BORANGE
+    else
+      BATTERY_COLOR=$BRED
+    fi
+
+    if [[ -n $BATTERY_VAL ]]; then	
+      echo "$BATTERY_COLOR$BATTERY_MARK$BATTERY_VAL%[0m "
+    fi
   fi
-	
-  echo "$BATTERY_COLOR$BATTERY_MARK$BATTERY_VAL%[0m"
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 PS1='
-$(print_battery) $BBLUE$USER@$HOSTNAME$BGREY ${PWD:-?}[0m
+$(print_battery)$BBLUE$USER@$HOSTNAME$BGREY ${PWD:-?}[0m
 \$ '
 
-. ~/perl5/perlbrew/etc/bashrc
+source .profile
