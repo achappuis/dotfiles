@@ -1,15 +1,13 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-
-export HISTFILE=$HOME/.mksh_history
-export HISTSIZE=4200
+export HISTFILE="$HOME/.mksh_history"
+export HISTSIZE=5000
 
 BATTERY_HTH=75
 BATTERY_LTH=25
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-
 HOSTNAME=$(hostname -s)
 
 RED="[31m"
@@ -27,9 +25,9 @@ BBLUE="[1;34m"
 BPURPLE="[1;35m"
 BLBLUE="[1;36m"
 BGREY="[1;37m"
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 if [[ "$(locale -k LC_CTYPE | sed -n 's/^charmap="\(.*\)"/\1/p')" == *"UTF-8"* ]] ; then
   BATTERY_MARK="⌁"     # in front of the battery charge
   if [[ "$(ps -aux | tail -n1)" == *"tty"* ]];then
@@ -64,5 +62,3 @@ print_battery() {
 PS1='
 $(print_battery)$BBLUE$USER@$HOSTNAME$BGREY ${PWD:-?}[0m
 \$ '
-
-source .profile

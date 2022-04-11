@@ -1,63 +1,33 @@
 set nocompatible
 
-syntax on
-set background=dark
-colorscheme desert
+colorscheme elflord " Select a common color scheme
 
-" Desactiver les touches directionnelles
-" map <up> <nop>
-" map <down> <nop>
-" map <left> <nop>
-" map <right> <nop>
-" imap <up> <nop>
-" imap <down> <nop>
-" imap <left> <nop>
-" imap <right> <nop>
+syntax on " Enable syntax higlighting
 
-" Sortir du mode insertion avec ,,
-imap ;; <Esc>
-map ;; <Esc>
+set wildmenu " Improved command line completion
+set title  " Vim update terminal title
+set number " Show line number
+set wrap   " Enable line wrap
+set textwidth=119 " Wrap on col 120
+set showmatch " Show matching brackets when text indicator is over them
 
-let mapleader = ','
+" Search 
+set ignorecase " Ignore case
+set smartcase  " Ignore case unless a cap letter exists in the pattern
+set incsearch  " Move to matched string  
+set hlsearch   " Highlight found strings
 
-set title
-set number " Numéro de ligne
-set ruler  " Position du curseur
-set wrap
-
-set hidden      " pour lusty xplorer
-
-" Recherche
-set ignorecase
-set smartcase   " Active la sensibilité a la casse si une majuscule est présente dans la recherche
-set incsearch   " Surlignage pendant la saisie
-set hlsearch
-set cursorline
-
-
-" Pathogen
-call pathogen#infect()
-call pathogen#helptags()
-
-" set statusline=%<\ %n:%f\ %m%r%y%=%-35.(line:\ %l\ of\ %L,\ col:\ %c%V\ (%P)%)
-
+" Indentation style
 set expandtab
 set shiftwidth=2
 set tabstop=2
 set softtabstop=2
 
-" Parametres par defaut pour ack
-let g:ackprg="ack -H --nocolor --nogroup --column"
-" Place un marqueur et cherche
-nmap <leader>j mA:Ack<space>
-" Place un marqueur et cherche le mot sous le curseur
-nmap <leader>ja mA:Ack "<C-r>=expand("<cword>")<cr>"
-nmap <leader>jA mA:Ack "<C-r>=expand("<cWORD>")<cr>"
+set encoding=utf8 " Set utf8 as standard encoding 
+set ffs=unix " Use Unix as the standard file type
 
-let g:ctrlp_map='<leader>c'
+set laststatus=2 " Always(2) have a status line
+set noshowmode " Don't duplicate mode information (lastatus=2)
 
-let g:airline#extensions#tabline#enabled = 1
-set laststatus=2
-
-
-
+filetype plugin on " Load plugins based on detected filetype
+filetype indent on " Load indent configuration based on detected filetype
