@@ -1,0 +1,28 @@
+#!/usr/bin/env sh
+
+# Start sxhkd (hotkey daemon) if not already started
+pgrep -x sxhkd > /dev/null || sxhkd &
+
+# Reconfigure monitors if an external one is detected
+$HOME/.local/bin/screen-config
+
+for monitor in $(bspc query -M --names); do
+  bspc monitor "$monitor" -d 1 2 3 4
+done
+
+# Launch polybar
+$HOME/.config/polybar/launch.sh
+
+# Configure bspwm 
+bspc config border_width         2
+bspc config window_gap           12
+bspc config split_ratio          0.50
+bspc config borderless_monocle   false
+bspc config gapless_monocle      false
+
+bspc rule -a processing-app-Base state=floating
+
+# Launch a few soft
+xautolock -time 5 -locker $HOME/.local/bin/lock &
+blueman-applet &
+keepassxc &

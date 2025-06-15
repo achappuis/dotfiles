@@ -1,0 +1,65 @@
+#
+# wm independent hotkeys
+#
+
+# terminal emulator
+super + Return
+  x-terminal-emulator
+
+# program launcher
+super + r
+	dmenu_run -i -p "run:" -l 10
+
+# make sxhkd reload its configuration files:
+super + Escape
+	pkill -USR1 -x sxhkd
+
+# lock the screen
+super + F9
+  $HOME/.local/bin/lock
+
+#
+# bspwm hotkeys
+#
+
+# quit or restart bspwm
+super + shift + {q,r}
+  $HOME/.local/bin/powerdown
+	#bspc {quit,wm -r}
+
+# close or kill node
+super + {_,shift + }c
+	bspc node -{c,k}
+
+# alternate between the tiled and monocle layout
+super + m
+	bspc desktop -l next
+
+# move the focused node to another monitor
+super + o
+  bspc node -f -m next
+
+# focus the node in the given direction
+super + {_,shift + }{h,j,k,l}
+	bspc node -{f,s} {west,south,north,east}
+
+# send to the given desktop
+super + shift + {1-4}
+	bspc node -d {1-4}.local
+
+# focus the given desktop
+super + {ampersand, eacute, quotedbl, apostrophe}
+	bspc desktop -f {1-4}.local
+
+#
+# media keys
+#
+XF86AudioMute
+  pactl set-sink-mute 0 toggle
+
+XF86AudioLowerVolume
+  pactl set-sink-volume 0 -5%
+
+XF86AudioRaiseVolume
+  pactl set-sink-volume 0 +5%
+
