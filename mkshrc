@@ -62,3 +62,30 @@ print_battery() {
 PS1='
 $(print_battery)$BBLUE$USER@$HOSTNAME$BGREY ${PWD:-?}[0m
 \$ '
+
+# Set PATH so it includes user's private bin directories
+# .local/bin is described in XDG Base dir specification, but it doesn't seem to be associated to any variable.
+PATH="$HOME/bin:$HOME/.local/bin:$PATH"
+
+# Default editor is vim
+export EDITOR=vim
+
+alias ll='ls -l'
+
+# Syntax higlight for less
+# Not sure how to specify a theme for source-highlight, so using batcat instead.
+# export LESSOPEN="| /usr/share/source-highlight/src-hilite-lesspipe.sh %s"
+# export LESS=' -R '
+alias less='batcat -n --theme Nord'
+
+# use batcat instead of cat to have syntax higlight
+alias cat='batcat -n -P --theme Nord'
+
+alias tree='tree --gitignore'
+
+# Sourcing more env.
+if [ -e "$HOME/.config/mksh" ]; then
+  for conf in "$HOME/.config/mksh"/*; do
+    source $conf
+  done
+fi
