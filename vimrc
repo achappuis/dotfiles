@@ -1,14 +1,12 @@
 set nocompatible
 
-colorscheme elflord " Select a common color scheme
-
 syntax on " Enable syntax higlighting
 
 set wildmenu " Improved command line completion
 set title  " Vim update terminal title
 set number " Show line number
 set wrap   " Enable line wrap
-set textwidth=119 " Wrap on col 120
+" set textwidth=119 " Wrap on col 120
 set showmatch " Show matching brackets when text indicator is over them
 
 " Search 
@@ -31,3 +29,25 @@ set noshowmode " Don't duplicate mode information (lastatus=2)
 
 filetype plugin on " Load plugins based on detected filetype
 filetype indent on " Load indent configuration based on detected filetype
+
+call plug#begin()
+
+Plug 'arcticicestudio/nord-vim'
+Plug 'dense-analysis/ale'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-endwise', { 'for': 'lua' }
+
+call plug#end()
+
+map <C-f> :Rg<CR>
+map <C-p> :GFiles<CR>
+map <C-]> :ALEGoToDefinition<CR>
+
+let g:ale_linters = {'c': ['clangd'], 'cpp': ['clangd'], 'rust': ['analyzer']}
+let g:ale_c_clangd_options = '--enable-config --clang-tidy'
+let g:ale_cpp_clangd_options = '--enable-config --clang-tidy'
+let g:ale_completion_enabled = 1
+let g:ale_sign_column_always = 1
+
+colorscheme nord
