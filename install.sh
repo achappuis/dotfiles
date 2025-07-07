@@ -21,7 +21,7 @@ fi
 case $os_name in
 *debian*)
 	pkg="apt -y -q"
-	sudo=sudo
+	sudo=doas
 	mksh_path=/usr/bin/mksh
 	;;
 *)
