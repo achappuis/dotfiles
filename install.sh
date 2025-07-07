@@ -30,16 +30,15 @@ case $os_name in
 	;;
 esac
 
-# Check is a program is in path. If not termoinate script.
-# This is used for checking software required to run the package manager
+# Check if a program is in path. If not terminate script.
 check_installed_or_terminate() {
   if ! which "$1" >/dev/null; then
-	  printf "Install and configure %s before running this script.\n" "$1"
+    printf "Install and add %s in PATH before running this script.\n" "$1"
 	  exit 1
   fi
 }
 
-# Check if softwares exists an notify user
+# Check if softwares exists. If not install it.
 check_and_install_package() {
 	# Get the number of packages installed that match $1
 	case $os_name in
@@ -109,6 +108,7 @@ if ! git status >/dev/null 2>&1; then
 	printf "Cloning repo\n"
 	mkdir -p "$HOME/src"
 	cd "$HOME/src" || exit
+  # TODO(ach) : update the branch
 	git clone -b tmp https://github.com/achappuis/dotfiles.git
 	cd dotfiles || exit
 fi
@@ -128,8 +128,13 @@ printf "\n"
 
 printf "Installing Vim-Plug\n"
 mkdir -p "$HOME/.vim/autoload"
-curl -fLo "$HOME/.vim/autoload/plug.vim" --create-dirs \
-	https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+curl -fLo plug.vim https://raw.githubusercontent.com/junegunn/vim-plug/refs/tags/0.14.0/plug.vim
+sha512 --strict --ignore-missing --check check.sha512
+if [ $? -ne 0 ]; then
+  printf "Unexpected sha512 for plug.vim\n"
+  exit 1
+fi
+mv plug.vim "$HOME/.vim/autoload"
 
 printf "Updating shell\n"
 $sudo chsh -s "$mksh_path" "$USER"
