@@ -20,7 +20,8 @@ fi
 
 case $os_name in
 *debian*)
-	pkg="apt -y -q"
+	pkg="apt"
+	pkg_install="$pkg -y -q install"
 	sudo=doas
 	mksh_path=/usr/bin/mksh
 	;;
@@ -29,6 +30,11 @@ case $os_name in
 	exit
 	;;
 esac
+
+# Update the package list
+update_package_list() {
+  $sudo $pkg update
+}
 
 # Check if a program is in path. If not terminate script.
 check_installed_or_terminate() {
@@ -57,7 +63,7 @@ check_and_install_package() {
 		printf " %-40s %s\n" "$1" "unexpected results, doing nothing"
 	else
 		printf " %-40s %s\n" "$1" "not installed, installing"
-		$sudo $pkg install "$1"
+		$sudo $pkg_install "$1"
 	fi
 }
 
@@ -96,6 +102,7 @@ check_and_install_config() {
 # Check if package manager and 'sudo' are installed.
 check_installed_or_terminate "$pkg"
 check_installed_or_terminate "$sudo"
+update_package_list
 
 printf "Installing software packages\n"
 for i in $packages; do
