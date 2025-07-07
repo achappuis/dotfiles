@@ -65,14 +65,14 @@ check_and_install_rc() {
 	if [ -e "$HOME/.$1" ]; then
 		# File exists, check if it's a symbolic link that links to the local config file
 		rc_rpath=$(realpath "$HOME/.$1")
-		if [ -h "$HOME/.$1" ] && [ "$PWD/$1" = "$rc_rpath" ]; then
+		if [ -h "$HOME/.$1" ] && [ "$PWD/rc/$1" = "$rc_rpath" ]; then
 			printf " %-40s %s\n" "$1" "installed"
 		else
 			printf " %-40s %s\n" "$1" "exists but won't be replaced"
 		fi
 	else
 		# The file doesn't exist, just create a symbolic link
-		ln -s "$PWD/$1" "$HOME/.$1"
+		ln -s "$PWD/rc/$1" "$HOME/.$1"
 		printf " %-40s %s\n" "$1" "installing"
 	fi
 }
@@ -81,14 +81,14 @@ check_and_install_config() {
 	if [ -e "$HOME/.config/$1" ]; then
 		# File exists, check if it's a symbolic link that links to the local config file
 		rc_rpath=$(realpath "$HOME/.config/$1")
-		if [ -h "$HOME/.config/$1" ] && [ "$PWD/$1" = "$rc_rpath" ]; then
+		if [ -h "$HOME/.config/$1" ] && [ "$PWD/config/$1" = "$rc_rpath" ]; then
 			printf " %-40s %s\n" "$1" "installed"
 		else
 			printf " %-40s %s\n" "$1" "exists but won't be replaced"
 		fi
 	else
 		# The file doesn't exist, just create a symbolic link
-		ln -s "$PWD/$1" "$HOME/.config/$1"
+		ln -s "$PWD/config/$1" "$HOME/.config/$1"
 		printf " %-40s %s\n" "$1" "installing"
 	fi
 }
@@ -127,14 +127,17 @@ done
 printf "\n"
 
 printf "Installing Vim-Plug\n"
+printf " downloading\n"
 mkdir -p "$HOME/.vim/autoload"
-curl -fLo plug.vim https://raw.githubusercontent.com/junegunn/vim-plug/refs/tags/0.14.0/plug.vim
-sha512 --strict --ignore-missing --check check.sha512
+curl --silent -fLo plug.vim https://raw.githubusercontent.com/junegunn/vim-plug/refs/tags/0.14.0/plug.vim
+printf " verifying\n"
+sha512sum --quiet --strict --ignore-missing --check check.sha512
 if [ $? -ne 0 ]; then
   printf "Unexpected sha512 for plug.vim\n"
   exit 1
 fi
 mv plug.vim "$HOME/.vim/autoload"
+printf "\n"
 
 printf "Updating shell\n"
 $sudo chsh -s "$mksh_path" "$USER"
