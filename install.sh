@@ -113,8 +113,7 @@ if ! git status >/dev/null 2>&1; then
 	printf "Cloning repo\n"
 	mkdir -p "$HOME/src"
 	cd "$HOME/src" || exit
-  # TODO(ach) : update the branch
-	git clone -b tmp https://github.com/achappuis/dotfiles.git
+	git clone https://github.com/achappuis/dotfiles.git
 	cd dotfiles || exit
 fi
 
