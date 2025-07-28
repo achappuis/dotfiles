@@ -1,7 +1,5 @@
 #!/usr/bin/sh
 
-dotfiles_dir=$(dirname -- "$(readlink -f -- "$0")")
-
 packages_dm="lightdm kitty bspwm polybar sxhkd dmenu"
 packages_dev_c_emb="gcc-arm-none-eabi libnewlib-arm-none-eabi"
 packages_dev_c="clangd clang-tidy clang-format cmake ninja-build gcc make $packages_dev_c_emb"
