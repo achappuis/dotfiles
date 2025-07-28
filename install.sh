@@ -141,6 +141,8 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 mv plug.vim "$HOME/.vim/autoload"
+printf " installing vim plugins\n"
+vim +PlugUpdate +qall
 printf "\n"
 
 printf "Updating shell\n"
