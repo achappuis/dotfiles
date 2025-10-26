@@ -4,7 +4,7 @@ packages_dm="lightdm kitty bspwm polybar sxhkd dmenu"
 packages_dev_c_emb="gcc-arm-none-eabi libnewlib-arm-none-eabi"
 packages_dev_c="clangd clang-tidy clang-format cmake ninja-build gcc make $packages_dev_c_emb"
 packages_dev_sh="shellcheck shfmt"
-packages="vim mksh ripgrep acpi bat git curl $packages_dm $packages_dev_c $packages_dev_sh"
+packages="vim mksh ripgrep fzf acpi bat git curl $packages_dm $packages_dev_c $packages_dev_sh"
 
 rcfiles="vimrc mkshrc"
 configs="bspwm polybar sxhkd kitty"
