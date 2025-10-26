@@ -132,7 +132,7 @@ printf "\n"
 
 printf "Installing Vim-Plug\n"
 printf " downloading\n"
-mkdir -p "$HOME/.vim/autoload"
+mkdir -p "$HOME/.config/vim/vim/autoload"
 curl --silent -fLo plug.vim https://raw.githubusercontent.com/junegunn/vim-plug/refs/tags/0.14.0/plug.vim
 printf " verifying\n"
 sha512sum --quiet --strict --ignore-missing --check check.sha512
@@ -140,7 +140,7 @@ if [ $? -ne 0 ]; then
   printf "Unexpected sha512 for plug.vim\n"
   exit 1
 fi
-mv plug.vim "$HOME/.vim/autoload"
+mv plug.vim "$HOME/.config/vim/vim/autoload"
 printf " installing vim plugins\n"
 vim +PlugUpdate +qall
 printf "\n"

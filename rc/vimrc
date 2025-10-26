@@ -1,5 +1,9 @@
 set nocompatible
 
+" I don't like config file to be directly in the home dir
+set viminfofile=~/.config/vim/viminfo
+set runtimepath=~/.config/vim/vim,/var/lib/vim/addons,/etc/vim,/usr/share/vim/vimfiles,/usr/share/vim/vim90,/usr/share/vim/vimfiles/after,/etc/vim/after,/var/lib/vim/addons/after
+
 syntax on " Enable syntax higlighting
 
 set wildmenu " Improved command line completion
