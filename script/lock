@@ -1,0 +1,18 @@
+#!/bin/sh
+
+bspc wm -d | jq -e '.monitors | map(.desktops) | flatten | map(.root | objects) | map(.client // .firstChild.client | objects) | map(.state) | contains(["fullscreen"])' > /dev/null
+
+if [ $? -eq 0 ]; then
+  echo "Application running in full screen, cancel screen save."
+  exit 0;
+fi
+
+# Create a blured image of the screen to be used by i3lock
+scrot - | convert - -blur 0x5 /tmp/screenshotblur.png
+
+# Lock the screen
+i3lock -i /tmp/screenshotblur.png
+
+# i3lock returns when screen is unlocked. The blured image can be removed.
+rm /tmp/screenshotblur.png
+

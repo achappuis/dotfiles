@@ -1,0 +1,19 @@
+#!/bin/sh
+
+dp_connected="$(xrandr | grep -c "^DP-1 connected")"
+hdmi_connected="$(xrandr | grep -c "^DP-2 connected")"
+
+if test "$dp_connected" -ge 1; then
+  echo "Display port screen connected!"
+  xrandr --output DP-1 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output eDP-1 --mode 1920x1080 --pos 0x1080 --rotate normal
+  exit 2
+elif test "$hdmi_connected" -ge 1; then
+  echo "HDMI screen connected!"
+  xrandr --output DP-2 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output eDP-1 --mode 1920x1080 --pos 0x1080 --rotate normal
+  exit 2
+else
+  echo "No external screen connected!"
+  xrandr --output DP-1 --off --output DP-2 --off --output eDP-1 --primary --mode 1920x1080 --pos 0x0 --rotate normal
+  exit 1
+fi
+

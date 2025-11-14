@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# Find the OS release and define a few command name for install.
+os_name=$(uname -s)
+if [ "$os_name" = "Linux" ]; then
+	. /etc/os-release
+	os_name="$ID"
+fi
+
+case $os_name in
+*debian*)
+  systemctl poweroff
+	;;
+*)
+	echo "Unsupported OS release"
+	exit
+	;;
+esac
+
+

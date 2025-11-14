@@ -8,6 +8,7 @@ packages="vim mksh ripgrep fzf acpi bat git curl $packages_dm $packages_dev_c $p
 
 rcfiles="vimrc mkshrc"
 configs="bspwm polybar sxhkd kitty"
+scripts="lock powerdown screen-config"
 
 # Find the OS release and define a few command name for install.
 os_name=$(uname -s)
@@ -65,6 +66,22 @@ check_and_install_package() {
 	fi
 }
 
+check_and_install_scripts() {
+	if [ -e "$HOME/.$1" ]; then
+		# File exists, check if it's a symbolic link that links to the local config file
+		rc_rpath=$(realpath "$HOME/.local/bin/$1")
+		if [ -h "$HOME/.local/bin/$1" ] && [ "$PWD/script/$1" = "$rc_rpath" ]; then
+			printf " %-40s %s\n" "$1" "installed"
+		else
+			printf " %-40s %s\n" "$1" "exists but won't be replaced"
+		fi
+	else
+		# The file doesn't exist, just create a symbolic link
+		ln -s "$PWD/script/$1" "$HOME/.local/bin/$1"
+		printf " %-40s %s\n" "$1" "installing"
+	fi
+}
+
 check_and_install_rc() {
 	if [ -e "$HOME/.$1" ]; then
 		# File exists, check if it's a symbolic link that links to the local config file
@@ -116,6 +133,12 @@ if ! git status >/dev/null 2>&1; then
 	git clone https://github.com/achappuis/dotfiles.git
 	cd dotfiles || exit
 fi
+
+printf "Installing scripts\n"
+for i in $scripts; do
+	check_and_install_scripts "$i"
+done
+printf "\n"
 
 printf "Installing RC files\n"
 for i in $rcfiles; do
