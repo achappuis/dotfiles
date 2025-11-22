@@ -67,7 +67,7 @@ check_and_install_package() {
 }
 
 check_and_install_scripts() {
-	if [ -e "$HOME/.$1" ]; then
+	if [ -e "$HOME/.local/bin/$1" ]; then
 		# File exists, check if it's a symbolic link that links to the local config file
 		rc_rpath=$(realpath "$HOME/.local/bin/$1")
 		if [ -h "$HOME/.local/bin/$1" ] && [ "$PWD/script/$1" = "$rc_rpath" ]; then
