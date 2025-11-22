@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/bin/sh
 
 packages_dm="lightdm kitty bspwm polybar sxhkd dmenu"
 packages_dev_c_emb="gcc-arm-none-eabi libnewlib-arm-none-eabi"
