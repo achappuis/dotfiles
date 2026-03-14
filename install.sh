@@ -4,7 +4,8 @@ packages_dm="lightdm kitty bspwm polybar sxhkd dmenu"
 packages_dev_c_emb="gcc-arm-none-eabi libnewlib-arm-none-eabi"
 packages_dev_c="clangd clang-tidy clang-format cmake ninja-build gcc make $packages_dev_c_emb"
 packages_dev_sh="shellcheck shfmt"
-packages="vim mksh ripgrep fzf acpi bat git curl $packages_dm $packages_dev_c $packages_dev_sh"
+packages="vim mksh ripgrep fzf acpi bat git curl $packages_dev_c $packages_dev_sh"
+packages_to_install=""
 
 rcfiles="vimrc mkshrc"
 configs="bspwm polybar sxhkd kitty"
@@ -61,8 +62,8 @@ check_and_install_package() {
 	elif [ "$num" -gt 1 ]; then
 		printf " %-40s %s\n" "$1" "unexpected results, doing nothing"
 	else
-		printf " %-40s %s\n" "$1" "not installed, installing"
-		$sudo $pkg_install "$1"
+		printf " %-40s %s\n" "$1" "marking for install"
+    packages_to_install="$packages_to_install $1"
 	fi
 }
 
@@ -114,6 +115,19 @@ check_and_install_config() {
 	fi
 }
 
+gui_flag=
+while getopts g name
+do
+	case $name in
+	g)    gui_flag=1;;
+	?)   printf "Usage: %s: [-g]\n" "$0"
+			 exit 2;;
+	esac
+done
+if [ -n "$gui_flag" ]; then
+	packages="$packages $packages_dm"
+fi
+
 # Check if package manager and 'sudo' are installed.
 check_installed_or_terminate "$pkg"
 check_installed_or_terminate "$sudo"
@@ -123,6 +137,7 @@ printf "Installing software packages\n"
 for i in $packages; do
 	check_and_install_package "$i"
 done
+$sudo $pkg_install $packages_to_install
 printf "\n"
 
 # If this is not a git repo(that is expected), clone the repo in a well known place in home and move there.
