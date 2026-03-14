@@ -18,6 +18,9 @@ super + Escape
 super + F9
   $HOME/.local/bin/lock
 
+super + v
+  $HOME/.local/bin/lock
+
 #
 # bspwm hotkeys
 #
