@@ -1,10 +1,10 @@
 #!/bin/sh
 
-packages_dm="lightdm kitty bspwm polybar sxhkd dmenu"
+packages_dm="lightdm kitty bspwm polybar sxhkd dmenu i3lock scrot imagemagick"
 packages_dev_c_emb="gcc-arm-none-eabi libnewlib-arm-none-eabi"
 packages_dev_c="clangd clang-tidy clang-format cmake ninja-build gcc make $packages_dev_c_emb"
 packages_dev_sh="shellcheck shfmt"
-packages="vim mksh ripgrep fzf acpi bat git curl $packages_dev_c $packages_dev_sh"
+packages="vim mksh ripgrep fzf acpi bat git curl jq $packages_dev_c $packages_dev_sh"
 packages_to_install=""
 
 rcfiles="vimrc mkshrc"
